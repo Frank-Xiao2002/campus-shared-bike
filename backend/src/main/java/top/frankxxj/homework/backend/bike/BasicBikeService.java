@@ -3,7 +3,6 @@ package top.frankxxj.homework.backend.bike;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import top.frankxxj.homework.backend.ride.RideRepository;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,7 +12,6 @@ import java.util.UUID;
 @Slf4j
 public class BasicBikeService implements BikeService {
     private final BikeRepository bikeRepository;
-    private final RideRepository rideRepository;
 
     @Override
     public void reportBroken(UUID bikeId) {
@@ -46,4 +44,15 @@ public class BasicBikeService implements BikeService {
     public Bike findById(UUID bikeId) {
         return bikeRepository.findById(bikeId).orElse(null);
     }
+
+    @Override
+    public Bike create() {
+        return bikeRepository.save(new Bike());
+    }
+
+    @Override
+    public void delete(UUID bikeId) {
+        bikeRepository.deleteById(bikeId);
+    }
+
 }
