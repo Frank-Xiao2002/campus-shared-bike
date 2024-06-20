@@ -2,6 +2,7 @@ package top.frankxxj.homework.backend.user;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.UUID;
@@ -10,6 +11,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "user")
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,4 +27,7 @@ public class User {
     @Column(name = "is_enabled", nullable = false)
     private Boolean isEnabled = true;
 
+    public User(UUID id) {
+        this.id = id;
+    }
 }

@@ -2,6 +2,7 @@ package top.frankxxj.homework.backend.bike;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.UUID;
@@ -10,6 +11,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "bike")
+@NoArgsConstructor
 public class Bike {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,4 +24,7 @@ public class Bike {
     @Column(name = "is_being_used", nullable = false)
     private Boolean isBeingUsed = false;
 
+    public Bike(UUID id) {
+        this.id = id;
+    }
 }
