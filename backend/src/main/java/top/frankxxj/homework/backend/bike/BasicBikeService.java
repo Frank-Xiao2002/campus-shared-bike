@@ -3,13 +3,8 @@ package top.frankxxj.homework.backend.bike;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-import top.frankxxj.homework.backend.ride.RideDto;
-import top.frankxxj.homework.backend.ride.Ride;
 import top.frankxxj.homework.backend.ride.RideRepository;
-import top.frankxxj.homework.backend.user.User;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
