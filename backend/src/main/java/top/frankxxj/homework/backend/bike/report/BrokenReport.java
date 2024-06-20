@@ -1,4 +1,4 @@
-package top.frankxxj.homework.backend.check;
+package top.frankxxj.homework.backend.bike.report;
 
 import jakarta.persistence.*;
 import lombok.Getter;

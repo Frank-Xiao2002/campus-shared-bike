@@ -1,4 +1,4 @@
-package top.frankxxj.homework.backend.check;
+package top.frankxxj.homework.backend.bike.report;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
