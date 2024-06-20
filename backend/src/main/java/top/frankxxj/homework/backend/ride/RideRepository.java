@@ -1,4 +1,4 @@
-package top.frankxxj.homework.backend.order;
+package top.frankxxj.homework.backend.ride;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,4 +1,4 @@
-package top.frankxxj.homework.backend.order;
+package top.frankxxj.homework.backend.ride;
 
 import jakarta.persistence.*;
 import lombok.*;
