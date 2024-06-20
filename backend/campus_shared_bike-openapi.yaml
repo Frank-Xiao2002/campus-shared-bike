@@ -1,0 +1,112 @@
+openapi: "3.1.0"
+info:
+  title: "campus_shared_bike API"
+  description: "campus_shared_bike API"
+  version: "1.0.0"
+servers:
+  - url: "http://localhost:8080"
+paths:
+  /bike:
+    get:
+      summary: "GET bike"
+      operationId: "findAll"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+    post:
+      summary: "POST bike"
+      operationId: "create"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Bike"
+  /bike/report/{bikeId}/broken:
+    post:
+      summary: "POST bike/report/{bikeId}/broken"
+      operationId: "reportBroken"
+      parameters:
+        - name: "bikeId"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /bike/report/{bikeId}/fixed:
+    post:
+      summary: "POST bike/report/{bikeId}/fixed"
+      operationId: "reportFixed"
+      parameters:
+        - name: "bikeId"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /bike/{id}:
+    get:
+      summary: "GET bike/{id}"
+      operationId: "findById"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Bike"
+    delete:
+      summary: "DELETE bike/{id}"
+      operationId: "delete"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+components:
+  schemas:
+    Bike:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+          format: "uuid"
+        isEnabled:
+          type: "boolean"
+        isBeingUsed:
+          type: "boolean"
