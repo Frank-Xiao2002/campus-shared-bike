@@ -11,4 +11,8 @@ public interface BikeService {
     List<Bike> findAll();
 
     Bike findById(UUID bikeId);
+
+    Bike create();
+
+    void delete(UUID bikeId);
 }

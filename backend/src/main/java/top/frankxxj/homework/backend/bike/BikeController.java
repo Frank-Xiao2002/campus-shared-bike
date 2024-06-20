@@ -33,4 +33,15 @@ public class BikeController {
     public ResponseEntity<Bike> findById(@PathVariable UUID id) {
         return ResponseEntity.ok(bikeService.findById(id));
     }
+
+    @PostMapping
+    public ResponseEntity<Bike> create() {
+        return ResponseEntity.ok(bikeService.create());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
+        bikeService.delete(id);
+        return ResponseEntity.ok().build();
+    }
 }
