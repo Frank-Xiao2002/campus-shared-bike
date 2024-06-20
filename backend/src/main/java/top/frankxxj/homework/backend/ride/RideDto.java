@@ -1,4 +1,4 @@
-package top.frankxxj.homework.backend.order;
+package top.frankxxj.homework.backend.ride;
 
 import java.io.Serializable;
 import java.util.UUID;
