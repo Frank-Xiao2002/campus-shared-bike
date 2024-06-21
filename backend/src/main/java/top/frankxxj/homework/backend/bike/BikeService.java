@@ -4,11 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface BikeService {
-    void reportBroken(UUID bikeId);
-
-    void reportFixed(UUID bikeId);
-
-    List<Bike> findAll();
+    List<Bike> findNearbyAvailable(Double longitude, Double latitude);
 
     Bike findById(UUID bikeId);
 

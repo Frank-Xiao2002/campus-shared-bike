@@ -1,16 +1,20 @@
-package top.frankxxj.homework.backend.user;
+package top.frankxxj.homework.backend.security.user;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+import top.frankxxj.homework.backend.security.userrole.UserRoleRelation;
 
+import java.util.Set;
 import java.util.UUID;
 
+@Entity
+@Table(name = "appuser")
 @Getter
 @Setter
-@Entity
-@Table(name = "user")
+@ToString
 @NoArgsConstructor
 public class User {
     @Id
@@ -22,10 +26,12 @@ public class User {
     private String email;
 
     @Column(name = "password", nullable = false)
+    @ToString.Exclude
     private String password;
 
-    @Column(name = "is_enabled", nullable = false)
-    private Boolean isEnabled = true;
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE}, fetch = FetchType.EAGER)
+    @ToString.Exclude
+    private Set<UserRoleRelation> userRoleRelations;
 
     public User(UUID id) {
         this.id = id;

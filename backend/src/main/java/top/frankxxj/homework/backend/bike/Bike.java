@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.UUID;
 
@@ -12,6 +13,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "bike")
 @NoArgsConstructor
+@ToString
 public class Bike {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,6 +25,12 @@ public class Bike {
 
     @Column(name = "is_being_used", nullable = false)
     private Boolean isBeingUsed = false;
+
+    @Column(name = "longitude")
+    private Double longitude;
+
+    @Column(name = "latitude")
+    private Double latitude;
 
     public Bike(UUID id) {
         this.id = id;

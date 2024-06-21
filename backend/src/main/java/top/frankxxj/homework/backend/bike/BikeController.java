@@ -12,21 +12,9 @@ import java.util.UUID;
 public class BikeController {
     private final BikeService bikeService;
 
-    @PostMapping("/report/{bikeId}/broken")
-    public ResponseEntity<?> reportBroken(@PathVariable UUID bikeId) {
-        bikeService.reportBroken(bikeId);
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/report/{bikeId}/fixed")
-    public ResponseEntity<?> reportFixed(@PathVariable UUID bikeId) {
-        bikeService.reportFixed(bikeId);
-        return ResponseEntity.ok().build();
-    }
-
     @GetMapping
-    public ResponseEntity<?> findAll() {
-        return ResponseEntity.ok(bikeService.findAll());
+    public ResponseEntity<?> findAvailable(@RequestParam Double longitude, @RequestParam Double latitude) {
+        return ResponseEntity.ok(bikeService.findNearbyAvailable(longitude, latitude));
     }
 
     @GetMapping("/{id}")

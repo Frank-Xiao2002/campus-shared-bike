@@ -9,7 +9,20 @@ paths:
   /bike:
     get:
       summary: "GET bike"
-      operationId: "findAll"
+      operationId: "findAvailable"
+      parameters:
+        - name: "longitude"
+          in: "query"
+          required: true
+          schema:
+            type: "number"
+            format: "double"
+        - name: "latitude"
+          in: "query"
+          required: true
+          schema:
+            type: "number"
+            format: "double"
       responses:
         "200":
           description: "OK"
@@ -27,42 +40,6 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/Bike"
-  /bike/report/{bikeId}/broken:
-    post:
-      summary: "POST bike/report/{bikeId}/broken"
-      operationId: "reportBroken"
-      parameters:
-        - name: "bikeId"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-            format: "uuid"
-      responses:
-        "200":
-          description: "OK"
-          content:
-            '*/*':
-              schema:
-                type: "object"
-  /bike/report/{bikeId}/fixed:
-    post:
-      summary: "POST bike/report/{bikeId}/fixed"
-      operationId: "reportFixed"
-      parameters:
-        - name: "bikeId"
-          in: "path"
-          required: true
-          schema:
-            type: "string"
-            format: "uuid"
-      responses:
-        "200":
-          description: "OK"
-          content:
-            '*/*':
-              schema:
-                type: "object"
   /bike/{id}:
     get:
       summary: "GET bike/{id}"
@@ -98,6 +75,209 @@ paths:
             '*/*':
               schema:
                 type: "object"
+  /ride/end:
+    post:
+      summary: "POST ride/end"
+      operationId: "endRide"
+      parameters:
+        - name: "id"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid"
+      responses:
+        "200":
+          description: "OK"
+  /ride/start:
+    post:
+      summary: "POST ride/start"
+      operationId: "startRide"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RideDto"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+  /ride/stats:
+    get:
+      summary: "GET ride/stats"
+      operationId: "getStats"
+      parameters:
+        - name: "date"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+            format: "date"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "integer"
+                format: "int32"
+  /user:
+    put:
+      summary: "PUT user"
+      operationId: "updatePassword"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserDto"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+    post:
+      summary: "POST user"
+      operationId: "createUser"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserDto"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+  /user/check?email={email}:
+    get:
+      summary: "GET user/check?email={email}"
+      operationId: "checkEmail"
+      parameters:
+        - name: "email"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+  /role:
+    post:
+      summary: "POST role"
+      operationId: "createRole"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoleDto"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+    delete:
+      summary: "DELETE role"
+      operationId: "deleteRole"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoleDto"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /userrole:
+    post:
+      summary: "POST userrole"
+      operationId: "assignRole"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRoleRelationDto"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+    delete:
+      summary: "DELETE userrole"
+      operationId: "removeRole"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRoleRelationDto"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /userrole/{userId}:
+    get:
+      summary: "GET userrole/{userId}"
+      operationId: "getRoles"
+      parameters:
+        - name: "userId"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /broken/{bikeId}:
+    put:
+      summary: "PUT broken/{bikeId}"
+      operationId: "reportFixed"
+      parameters:
+        - name: "bikeId"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid"
+      responses:
+        "200":
+          description: "OK"
+    post:
+      summary: "POST broken/{bikeId}"
+      operationId: "reportBroken"
+      parameters:
+        - name: "bikeId"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid"
+      responses:
+        "200":
+          description: "OK"
 components:
   schemas:
     Bike:
@@ -110,3 +290,39 @@ components:
           type: "boolean"
         isBeingUsed:
           type: "boolean"
+        longitude:
+          type: "number"
+          format: "double"
+        latitude:
+          type: "number"
+          format: "double"
+    RideDto:
+      type: "object"
+      properties:
+        userId:
+          type: "string"
+          format: "uuid"
+        bikeId:
+          type: "string"
+          format: "uuid"
+    UserDto:
+      type: "object"
+      properties:
+        email:
+          type: "string"
+        password:
+          type: "string"
+    RoleDto:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+    UserRoleRelationDto:
+      type: "object"
+      properties:
+        userId:
+          type: "string"
+          format: "uuid"
+        roleId:
+          type: "integer"
+          format: "int64"

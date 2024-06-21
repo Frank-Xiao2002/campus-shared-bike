@@ -14,30 +14,12 @@ public class BasicBikeService implements BikeService {
     private final BikeRepository bikeRepository;
 
     @Override
-    public void reportBroken(UUID bikeId) {
-        bikeRepository.findById(bikeId).ifPresent(bike -> {
-            if (!bike.getIsEnabled()) {
-                throw new RuntimeException("Bike is already broken");
-            }
-            bike.setIsEnabled(false);
-            bikeRepository.save(bike);
-        });
-    }
-
-    @Override
-    public void reportFixed(UUID bikeId) {
-        bikeRepository.findById(bikeId).ifPresent(bike -> {
-            if (bike.getIsEnabled()) {
-                throw new RuntimeException("Bike is already fixed");
-            }
-            bike.setIsEnabled(true);
-            bikeRepository.save(bike);
-        });
-    }
-
-    @Override
-    public List<Bike> findAll() {
-        return bikeRepository.findAll();
+    public List<Bike> findNearbyAvailable(Double longitude, Double latitude) {
+        Double longitudeStart = longitude - 0.01;
+        Double longitudeEnd = longitude + 0.01;
+        Double latitudeStart = latitude - 0.01;
+        Double latitudeEnd = latitude + 0.01;
+        return bikeRepository.findByLongitudeBetweenAndLatitudeBetween(longitudeStart, longitudeEnd, latitudeStart, latitudeEnd);
     }
 
     @Override
@@ -52,7 +34,12 @@ public class BasicBikeService implements BikeService {
 
     @Override
     public void delete(UUID bikeId) {
-        bikeRepository.deleteById(bikeId);
+        bikeRepository.findById(bikeId).ifPresent(bike -> {
+            bike.setIsEnabled(false);
+            bike.setIsBeingUsed(false);
+            bikeRepository.save(bike);
+            log.info("Bike {} has been disabled", bikeId);
+        });
     }
 
 }
