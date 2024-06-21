@@ -4,7 +4,7 @@ info:
   description: "campus_shared_bike API"
   version: "1.0.0"
 servers:
-  - url: "https://campus_shared_bike"
+  - url: "http://localhost:8080"
 paths:
   /bike:
     get:
