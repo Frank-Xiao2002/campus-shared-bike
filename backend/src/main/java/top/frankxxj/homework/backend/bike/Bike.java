@@ -24,6 +24,12 @@ public class Bike {
     @Column(name = "is_being_used", nullable = false)
     private Boolean isBeingUsed = false;
 
+    @Column(name = "longitude")
+    private Double longitude;
+
+    @Column(name = "latitude")
+    private Double latitude;
+
     public Bike(UUID id) {
         this.id = id;
     }

@@ -35,4 +35,11 @@ public class Ride {
     @Column(name = "end")
     private LocalDateTime end;
 
+    @Column(name = "distance")
+    private Double distance;
+
+    @Column(name = "is_finished")
+    @Builder.Default
+    private Boolean isFinished = false;
+
 }
