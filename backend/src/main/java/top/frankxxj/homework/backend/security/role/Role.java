@@ -29,12 +29,7 @@ public class Role {
     @ToString.Exclude
     private List<UserRoleRelation> userRoleRelations = new ArrayList<>();
 
-    public Role(String name) {
-        this.name = name;
-    }
-
-    public Role(Long id, String name) {
+    public Role(Long id) {
         this.id = id;
-        this.name = name;
     }
 }

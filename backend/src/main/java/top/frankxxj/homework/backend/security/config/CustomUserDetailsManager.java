@@ -15,13 +15,11 @@ public class CustomUserDetailsManager implements UserDetailsManager {
 
     @Override
     public void createUser(UserDetails user) {
-        // TODO: 6/21/2024
         throw new UnsupportedOperationException();
     }
 
     @Override
     public void updateUser(UserDetails user) {
-        // TODO: 6/21/2024
         throw new UnsupportedOperationException();
     }
 
@@ -32,7 +30,6 @@ public class CustomUserDetailsManager implements UserDetailsManager {
 
     @Override
     public void changePassword(String oldPassword, String newPassword) {
-        // TODO: 6/21/2024
         throw new UnsupportedOperationException();
     }
 

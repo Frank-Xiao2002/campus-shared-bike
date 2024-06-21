@@ -3,7 +3,7 @@ package top.frankxxj.homework.backend.ride;
 import jakarta.persistence.*;
 import lombok.*;
 import top.frankxxj.homework.backend.bike.Bike;
-import top.frankxxj.homework.backend.user.User;
+import top.frankxxj.homework.backend.security.user.User;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -30,13 +30,15 @@ public class Ride {
     private Bike bike;
 
     @Column(name = "start")
-    private LocalDateTime start;
+    @Builder.Default
+    private LocalDateTime start = LocalDateTime.now();
 
     @Column(name = "end")
     private LocalDateTime end;
 
     @Column(name = "distance")
-    private Double distance;
+    @Builder.Default
+    private Double distance = 0.0;
 
     @Column(name = "is_finished")
     @Builder.Default

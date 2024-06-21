@@ -4,11 +4,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import top.frankxxj.homework.backend.bike.Bike;
 import top.frankxxj.homework.backend.bike.BikeRepository;
-import top.frankxxj.homework.backend.user.User;
+import top.frankxxj.homework.backend.security.user.User;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -23,12 +26,13 @@ public class BasicRideService implements RideService {
         bikeRepository.findById(dto.bikeId()).ifPresent(bike -> {
             if (bike.getIsBeingUsed()) {
                 throw new RuntimeException("Bike is already being used");
+            } else if (!bike.getIsEnabled()) {
+                throw new RuntimeException("Bike is not enabled");
             }
             bike.setIsBeingUsed(true);
             rideRepository.save(Ride.builder()
                     .user(new User(dto.userId()))
-                    .start(LocalDateTime.now())
-                    .bike(new Bike(dto.bikeId())).build());
+                    .bike(bike).build());
             bikeRepository.save(bike);
             log.info("Ride started for bike {} & user {}", dto.bikeId(), dto.userId());
         });
@@ -49,5 +53,23 @@ public class BasicRideService implements RideService {
             bikeRepository.save(bike);
             log.info("Ride ended for bike {}", bikeId);
         });
+    }
+
+    @Override
+    public Map<Integer, Long> getStats(LocalDate date) {
+        if (Objects.isNull(date))
+            date = LocalDate.now();
+        var startOfDay = date.atStartOfDay();
+        var endOfDay = date.atTime(23, 59, 59);
+        var rides = rideRepository.findByStartBetweenOrderByStartAsc(startOfDay, endOfDay);
+        Map<Integer, Long> hourlyRides = new HashMap<>();
+        for (Ride ride : rides) {
+            int hour = ride.getStart().getHour();
+            hourlyRides.put(hour, hourlyRides.getOrDefault(hour, 0L) + 1);
+        }
+        for (int i = 0; i < 24; i++) {
+            hourlyRides.putIfAbsent(i, 0L);
+        }
+        return hourlyRides;
     }
 }

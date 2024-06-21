@@ -2,6 +2,7 @@ package top.frankxxj.homework.backend.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,22 +27,22 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/public/**").permitAll();
-            auth.requestMatchers("/admin/**").hasRole("ADMIN");
-            auth.requestMatchers("/user/**").hasRole("USER");
+            auth.requestMatchers(HttpMethod.POST, "/user/**").permitAll();
+            auth.requestMatchers(HttpMethod.GET, "/user/check**").permitAll();
+            auth.requestMatchers(HttpMethod.PUT, "/user/**").hasAuthority("USER");
+            auth.requestMatchers("/userrole/**").hasAuthority("ADMIN");
+            auth.requestMatchers(HttpMethod.POST, "/broken/**").permitAll();
+            auth.requestMatchers(HttpMethod.PUT, "/broken/**").hasAnyAuthority("ADMIN", "REPAIRMEN");
+            auth.requestMatchers("/role/**").hasAuthority("ADMIN");
+            auth.requestMatchers(HttpMethod.GET, "/bike/**").permitAll();
+            auth.requestMatchers(HttpMethod.POST, "/bike/**").hasAuthority("ADMIN");
+            auth.requestMatchers(HttpMethod.DELETE, "/bike/**").hasAuthority("ADMIN");
+            auth.requestMatchers("/ride/**").permitAll();
             auth.anyRequest().authenticated();
         });
         http.httpBasic(withDefaults());
-        http.formLogin(cus -> {
-            cus.defaultSuccessUrl("/public");
-        });
+        http.formLogin(withDefaults());
         return http.build();
     }
 
-//    @Bean
-//    AuthenticationManager authenticationManager(AuthenticationManagerBuilder builder,
-//                                                CustomAuthenticationProvider customAuthenticationProvider) throws Exception {
-//        builder.authenticationProvider(customAuthenticationProvider);
-//        return builder.build();
-//    }
 }
